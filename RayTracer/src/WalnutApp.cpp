@@ -12,7 +12,6 @@ public:
 		ImGui::Button("Button");
 		ImGui::End();
 
-		ImGui::ShowDemoWindow();
 	}
 };
 
