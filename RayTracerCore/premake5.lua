@@ -1,30 +1,11 @@
-project "RayTracer"
-   kind "ConsoleApp"
+project "RayTracerCore"
+   kind "StaticLib"
    language "C++"
    cppdialect "C++17"
    targetdir "bin/%{cfg.buildcfg}"
    staticruntime "off"
 
    files { "src/**.h", "src/**.cpp" }
-
-   includedirs
-   {
-      "../Walnut/vendor/imgui",
-      "../Walnut/vendor/glfw/include",
-      "../Walnut/vendor/glm",
-
-      "../Walnut/Walnut/src",
-
-      "../RayTracerCore/src",
-
-      "%{IncludeDir.VulkanSDK}"
-   }
-
-   links
-   {
-       "RayTracerCore",
-       "Walnut"
-   }
 
    targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
    objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")

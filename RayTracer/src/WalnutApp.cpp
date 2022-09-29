@@ -2,6 +2,7 @@
 #include "Walnut/EntryPoint.h"
 
 #include "Walnut/Image.h"
+#include "Test.h"
 
 class ExampleLayer : public Walnut::Layer
 {
@@ -20,6 +21,8 @@ Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
 	Walnut::ApplicationSpecification spec;
 	spec.Name = "Walnut Example";
 
+	Test t;
+	t.RunTest();
 	Walnut::Application* app = new Walnut::Application(spec);
 	app->PushLayer<ExampleLayer>();
 	app->SetMenubarCallback([app]()
