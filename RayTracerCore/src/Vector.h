@@ -10,6 +10,18 @@ namespace Hybrid {
 			}
 		}
 		
+		Vector2 operator* (float scalar) const {
+			return Vector2(scalar * x, scalar * y);
+		}
+
+		Vector2 operator- (const Vector2& other) const {
+			return Vector2(x + other.x, y + other.y);
+		}
+
+		Vector2 operator-(const float f) const {
+			return Vector2(x - f, y - f);
+		}
+
 		Vector2(float x, float y) :
 			x(x), y(y) {}
 	public:
@@ -26,6 +38,15 @@ namespace Hybrid {
 			}
 		}
 
+		Vector3 operator* (float scalar) const {
+			return Vector3(scalar * x, scalar * y, scalar * z);
+		}
+
+		Vector3 operator+ (const Vector3& other) const {
+			return Vector3(x + other.x, y + other.y, z + other.z);
+		}
+
+		Vector3(float x) : Vector2(x,x), z(x) {}
 		Vector3(float x, float y, float z) :
 			Vector2(x, y), z(z) {}
 
@@ -38,5 +59,9 @@ namespace Hybrid {
 		out << "x: " << s.x << " y: " << s.y << " z: " << s.z << std::endl;
 
 		return out;
+	}
+
+	inline float Dot(const Vector3& v1, const Vector3& v2) {
+		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 	}
 }
