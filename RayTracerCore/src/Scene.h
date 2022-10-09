@@ -3,54 +3,36 @@
 #include <vector>
 #include "Vector.h"
 #include "Ray.h"
+#include "Sphere.h"
+#include "BVHAccel.h"
 
 namespace Hybrid {
-
-	class Shape {};
-
-	class Sphere : public Shape {
-	public:
-		Sphere(Vector3 origin, float radius) :
-			m_Origin(origin), m_Radius(radius)
-		{}
-
-		bool Intersect(const Ray& ray) {
-			float a = Dot(ray.GetDirection(), ray.GetDirection());
-			float b = 2.0f * Dot(ray.GetOrigin(), ray.GetDirection());
-			float c = Dot(ray.GetOrigin(), ray.GetOrigin()) - m_Radius * m_Radius;
-
-			// Solve quadratic equation
-			float discriminant = b * b - 4 * a * c;
-			
-			return discriminant >= 0.0f;
-
-			//return true;
-		}
-
-		Vector3 GetOrigin() const {
-			return m_Origin;
-		}
-
-		float GetRadius() const {
-			return m_Radius;
-		}
-		//friend std::ostream& operator<<(std::ostream& os, const Sphere& sphere);
-	private:
-		Vector3 m_Origin;
-		float m_Radius = 0.0f;
-	};
 	class Scene {
 	public:
 		Scene() {
 			{
-				Sphere s(Vector3(0.0f, 0.0f, 0.0f), 0.5f);
+				Sphere s(Vector3(0.0f, 0.0f, 0.0f), 0.5f, Vector3(1.0f, 0.0f, 0.0f));
 				m_Shapes.push_back(s);
 			}
+
+			//auto 
+			m_Structure = new BVHNode(m_Shapes, 0, m_Shapes.size());
+			//
+			
+
+		}
+
+		~Scene() {
+			delete m_Structure;
 		}
 
 		std::vector<Sphere> GetAllPrimitives();
+
+		bool BoundingBoxForAllPrimitives(Bounds3& createdBoundingBox) const;
+		Bounds3 SurroundingBox(Bounds3& box0, Bounds3& box1) const;
 	private:
 		std::vector<Sphere> m_Shapes;
+		BVHNode* m_Structure = nullptr;
 	};
 
 	inline std::ostream& operator<<(std::ostream& out, const Sphere& s) {

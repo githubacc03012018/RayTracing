@@ -5,7 +5,8 @@
 namespace Hybrid {
 	class Renderer {
 	public:
-		uint32_t GetColorAt(const Vector2& coord);
+		//uint32_t GetColorAt(const Vector2& coord);
+		uint32_t GetColorAt(const Vector3& direction);
 		void Render(int width, int height, uint32_t* buffer);
 
 		Renderer() {

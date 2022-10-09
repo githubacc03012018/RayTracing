@@ -7,7 +7,7 @@ namespace Hybrid {
 		Ray(Vector3 origin, Vector3 direction) : 
 			m_Origin(origin), m_Direction(direction) {}
 
-		Vector3 GetAt(float t) {
+		Vector3 GetAt(float t) const {
 			return m_Origin + m_Direction * t;
 		}
 
@@ -19,6 +19,7 @@ namespace Hybrid {
 			return m_Direction;
 		}
 
+		float tMax = INFINITY;
 	private:
 		Vector3 m_Origin;
 		Vector3 m_Direction;
