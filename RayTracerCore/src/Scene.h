@@ -17,9 +17,6 @@ namespace Hybrid {
 
 			//auto 
 			m_Structure = new BVHNode(m_Shapes, 0, m_Shapes.size());
-			//
-			
-
 		}
 
 		~Scene() {
@@ -29,7 +26,7 @@ namespace Hybrid {
 		std::vector<Sphere> GetAllPrimitives();
 
 		bool BoundingBoxForAllPrimitives(Bounds3& createdBoundingBox) const;
-		Bounds3 SurroundingBox(Bounds3& box0, Bounds3& box1) const;
+		//Bounds3 SurroundingBox(Bounds3& box0, Bounds3& box1) const;
 	private:
 		std::vector<Sphere> m_Shapes;
 		BVHNode* m_Structure = nullptr;
