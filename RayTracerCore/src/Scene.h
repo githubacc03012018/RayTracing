@@ -9,27 +9,31 @@
 namespace Hybrid {
 	class Scene {
 	public:
-		Scene() {
+		Scene() {}
+
+		std::vector<std::shared_ptr<Shape>> CreateWorld() {
 			{
-				Sphere s(Vector3(0.0f, 0.0f, 0.0f), 0.5f, Vector3(1.0f, 0.0f, 0.0f));
+				auto s = std::make_shared<Sphere>(Vector3(0.0f, 0.0f, 0.0f), 0.5f, Vector3(1.0f, 0.0f, 0.0f));
 				m_Shapes.push_back(s);
 			}
 
-			//auto 
-			m_Structure = new BVHNode(m_Shapes, 0, m_Shapes.size());
+			{
+				auto s = std::make_shared<Sphere>(Vector3(1.0f, 0.0f, 0.0f), 0.5f, Vector3(1.0f, 0.0f, 0.0f));
+				m_Shapes.push_back(s);
+
+			}
+			std::vector<std::shared_ptr<Shape>> wrapper;
+			
+			wrapper.push_back(std::make_shared<BVHNode>(m_Shapes, 0.0, 1.0));
+
+			return wrapper;
 		}
 
-		~Scene() {
-			delete m_Structure;
-		}
-
-		std::vector<Sphere> GetAllPrimitives();
+		std::vector<std::shared_ptr<Shape>> GetAllPrimitives();
 
 		bool BoundingBoxForAllPrimitives(Bounds3& createdBoundingBox) const;
-		//Bounds3 SurroundingBox(Bounds3& box0, Bounds3& box1) const;
 	private:
-		std::vector<Sphere> m_Shapes;
-		BVHNode* m_Structure = nullptr;
+		std::vector<std::shared_ptr<Shape>> m_Shapes;
 	};
 
 	inline std::ostream& operator<<(std::ostream& out, const Sphere& s) {

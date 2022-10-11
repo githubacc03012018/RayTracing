@@ -11,16 +11,15 @@ namespace Hybrid {
 			zMax(Clamp(std::max(zMin, zMax), -radius, radius))
 		{}
 
-		Vector3 GetOrigin() const {
-			return m_Origin;
-		}
+		Vector3 GetOrigin() const override;
 
 		float GetRadius() const {
 			return m_Radius;
 		}
 
 		Bounds3 ObjectBound() const override;
-		bool Intersect(const Ray& ray, float& tMax, float& t) const override;
+
+		bool Intersects(const Ray& ray, float tMax, float& t) const override;
 
 		Vector3 GetColor() const {
 			return m_Color;

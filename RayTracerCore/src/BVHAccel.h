@@ -3,22 +3,19 @@
 #include <vector>
 
 namespace Hybrid {
-	class BVHNode {
+	class BVHNode : public Shape {
 	public:
-		BVHNode(const std::vector<Sphere>& world, int start, int end); // world should be vector<shape>
+		BVHNode(const std::vector<std::shared_ptr<Shape>>& world, int start, int end); // world should be vector<shape>
+		BVHNode();
 
-		~BVHNode() {
-			/*delete left;
-			delete right;*/
+		bool Intersects(const Ray& ray, float tMax, float& t) const override;
+		Bounds3 ObjectBound() const override;
+		Vector3 GetOrigin() const override {
+			return Vector3();
 		}
-
-		bool Intersects(const Ray& ray, float tMax, float t) const;
 	private:
-		std::shared_ptr<Sphere> left;
-		std::shared_ptr<Sphere> right;
-
-		//Sphere* left = nullptr;
-		//Sphere* right = nullptr;
 		Bounds3 box;
+		std::shared_ptr<Shape> left;
+		std::shared_ptr<Shape> right;
 	};
 }

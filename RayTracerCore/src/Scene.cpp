@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 namespace Hybrid {
-	std::vector<Sphere> Scene::GetAllPrimitives() {
+	std::vector<std::shared_ptr<Shape>> Scene::GetAllPrimitives() {
 		return m_Shapes;
 	}
 
@@ -10,7 +10,7 @@ namespace Hybrid {
 
 		bool isFirstBox = false;
 		for (const auto& shape : m_Shapes) {
-			auto tempBox = shape.ObjectBound();
+			auto tempBox = shape->ObjectBound();
 			createdBoundingBox = isFirstBox ? tempBox : SurroundingBox(createdBoundingBox, tempBox);
 			isFirstBox = false;
 		}

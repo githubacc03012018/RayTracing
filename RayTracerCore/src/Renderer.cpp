@@ -16,6 +16,7 @@ namespace Hybrid {
 
 
 		auto lower_left_corner = Vector3(0.0f, 0.0f, 0.0f) - horizontal / 2 - vertical / 2 - Vector3(0.0f, 0.0f, 1.0f);
+		auto world = m_Scene->CreateWorld();
 
 		for (int i = 0; i < viewportHeight; i++) {
 			for (int j = 0; j < viewportWidth; j++) {
@@ -26,13 +27,13 @@ namespace Hybrid {
 				/*Vector2 coord = { u,v };
 				coord = coord * 2.0f - 1.0f;*/
 
-				buffer[j + i * viewportWidth] = this->GetColorAt(asd);
+				buffer[j + i * viewportWidth] = this->GetColorAt(asd, world);
 			}
 		}
 	}
 
 	//uint32_t Renderer::GetColorAt(const Vector2& coord) {
-	uint32_t Renderer::GetColorAt(const Vector3& direction) {
+	uint32_t Renderer::GetColorAt(const Vector3& direction, const std::vector<std::shared_ptr<Shape>>& world) {
 		Vector3 finalColor(0.1f, 0.1f, 0.2f);
 
 		Vector3 origin = { 0.0f, 0.0f, -2.0f }; //camera origin
@@ -40,15 +41,11 @@ namespace Hybrid {
 
 		const Ray ray = Ray(origin, direction);
 
-		auto world = m_Scene->GetAllPrimitives();
-
 		float maxDistance = std::numeric_limits<float>::max();
 		float t = 0.0f;
-
-		for (size_t i = 0; i < world.size(); i++) {
-			const Sphere shape = world[i];
-
-			if (shape.Intersect(ray, maxDistance, t)) {
+		 
+		for (const auto& object : world) {
+			if (object->Intersects(ray, maxDistance, t)) {
 				maxDistance = t;
 
 				Vector3 lightPos = Vector3(1.0f, -1.0f, 1.0f);
@@ -58,7 +55,7 @@ namespace Hybrid {
 
 				lightDir = Normalize(lightDir);
 
-				auto normal = Normalize(ray.GetAt(t) - shape.GetOrigin());
+				auto normal = Normalize(ray.GetAt(t) - object->GetOrigin());
 				auto cosLaw = std::max<float>(0.0f, Dot(lightDir, normal));
 				auto area = 4 * PI * radius * radius;
 
@@ -66,6 +63,7 @@ namespace Hybrid {
 
 			}
 		}
+		 
 
 		// use finalColor
 		auto r = (uint8_t)(finalColor.x * 255.0f);

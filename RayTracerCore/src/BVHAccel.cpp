@@ -3,15 +3,21 @@
 
 
 namespace Hybrid {
-	//const std::vector<Sphere>& world should be vector<Shape>
-	BVHNode::BVHNode(const std::vector<Sphere>& world, int start, int end) {
+	BVHNode::BVHNode(const std::vector<std::shared_ptr<Shape>>& world, int start, int end) {
 		// build the structure recursively
 		size_t objectSpan = end - start;
 		auto objs = world;
 
 		if (objectSpan == 1) {
-			auto s = objs[start];
-			left = right = std::make_shared<Sphere>(s);
+			left = right = objs[start];
+		}
+		else if (objectSpan == 2) {
+			
+		}
+		else {
+			auto mid = start + objectSpan/ 2;
+			left = std::make_shared<BVHNode>(objs, start, mid);
+			right = std::make_shared<BVHNode>(objs, mid, end);
 		}
 
 		Bounds3 leftBox = left->ObjectBound();
@@ -20,19 +26,28 @@ namespace Hybrid {
 		box = SurroundingBox(leftBox, rightBox);
 	}
 
-	bool BVHNode::Intersects(const Ray& ray, float tMax, float t) const {
+	bool BVHNode::Intersects(const Ray& ray, float tMax, float& t) const {
 		bool intersects = false;
 
 		float min, max = 0.0f;
-		if (box.Intersects(ray, &min, &max)) {
+		/*if (box.Intersects(ray, &min, &max)) {
 
-			auto leftHit = left->Intersect(ray, max, t);
-			auto rightHit = right->Intersect(ray, leftHit ? t : max, t);
+			auto leftHit = left->Intersects(ray, max, t);
+			auto rightHit = right->Intersects(ray, leftHit ? t : max, t);
 
 			intersects = leftHit || rightHit;
 			return intersects;
-		}
+		}*/
+
+		auto leftHit = left->Intersects(ray, max, t);
+		auto rightHit = right->Intersects(ray, leftHit ? t : max, t);
+
+		intersects = leftHit || rightHit;
 
 		return intersects;
+	}
+
+	Bounds3 BVHNode::ObjectBound() const {
+		return box;
 	}
 }

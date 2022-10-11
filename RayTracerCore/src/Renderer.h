@@ -6,7 +6,7 @@ namespace Hybrid {
 	class Renderer {
 	public:
 		//uint32_t GetColorAt(const Vector2& coord);
-		uint32_t GetColorAt(const Vector3& direction);
+		uint32_t GetColorAt(const Vector3& direction, const std::vector<std::shared_ptr<Shape>>& world);
 		void Render(int width, int height, uint32_t* buffer);
 
 		Renderer() {
