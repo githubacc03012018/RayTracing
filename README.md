@@ -10,4 +10,4 @@ The template's purpose is to provide boilerplate code for imGui setup. RayTracer
 
 Current working state:
 
-![ray traced sphere](https://ibb.co/tbFgpxX)
+![ray traced_sphere](https://i.ibb.co/Zh75zYm/Screenshot-2022-10-25-114246.png)
