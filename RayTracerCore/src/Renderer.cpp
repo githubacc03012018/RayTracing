@@ -23,11 +23,11 @@ namespace Hybrid {
 				auto u = (float)j / (float)viewportWidth;
 				auto v = (float)i / (float)viewportHeight;
 
-				auto asd = lower_left_corner + horizontal * u + vertical * v;
+				auto direction = lower_left_corner + horizontal * u + vertical * v;
 				/*Vector2 coord = { u,v };
 				coord = coord * 2.0f - 1.0f;*/
 
-				buffer[j + i * viewportWidth] = this->GetColorAt(asd, world);
+				buffer[j + i * viewportWidth] = this->GetColorAt(direction, world);
 			}
 		}
 	}
