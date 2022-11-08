@@ -12,7 +12,8 @@ namespace Hybrid {
 			left = right = objs[start];
 		}
 		else if (objectSpan == 2) {
-			
+			left = objs[start];
+			right = objs[start + 1];
 		}
 		else {
 			auto mid = start + objectSpan/ 2;

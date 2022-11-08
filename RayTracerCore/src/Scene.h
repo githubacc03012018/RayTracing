@@ -18,13 +18,13 @@ namespace Hybrid {
 			}
 
 			{
-				auto s = std::make_shared<Sphere>(Vector3(1.0f, 0.0f, 0.0f), 0.5f, Vector3(1.0f, 0.0f, 0.0f));
+				auto s = std::make_shared<Sphere>(Vector3(0.5f, 0.5f, 0.0f), 0.5f, Vector3(1.0f, 0.0f, 0.0f));
 				m_Shapes.push_back(s);
 
 			}
 			std::vector<std::shared_ptr<Shape>> wrapper;
 			
-			wrapper.push_back(std::make_shared<BVHNode>(m_Shapes, 0.0, 1.0));
+			wrapper.push_back(std::make_shared<BVHNode>(m_Shapes, 0.0, 2.0));
 
 			return wrapper;
 		}
